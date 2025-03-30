@@ -1,7 +1,7 @@
 {
   "name": "weblarek_backend",
   "version": "1.0.0",
-  "description": "< Добавьте описание проекта в свободной форме >",
+  "description": "weblarek_backend",
   "main": "dist/app.js",
   "scripts": {
     "lint": "npx eslint src/**/*.ts",
@@ -11,7 +11,7 @@
     "start": "ts-node src/app.ts",
     "test": "echo \"Error: no test specified\" && exit 1"
   },
-  "author": "< Укажите здесь автора работы >",
+  "author": "timofigoncharov",
   "license": "ISC",
   "devDependencies": {
     "@types/bcryptjs": "^2.4.6",
@@ -42,8 +42,11 @@
     "celebrate": "^15.0.3",
     "cookie-parser": "^1.4.6",
     "cors": "^2.8.5",
+    "csrf-csrf": "^3.1.0",
     "dotenv": "^16.4.5",
     "express": "^4.19.2",
+    "express-mongo-sanitize": "^2.2.0",
+    "express-rate-limit": "^7.5.0",
     "jsonwebtoken": "^9.0.2",
     "md5": "^2.3.0",
     "mime-types": "^2.1.35",
@@ -52,6 +55,8 @@
     "multer": "^1.4.5-lts.1",
     "sharp": "^0.33.4",
     "unique-slug": "^4.0.0",
-    "validator": "^13.12.0"
+    "uuid": "^11.1.0",
+    "validator": "^13.12.0",
+    "winston": "^3.17.0"
   }
 }

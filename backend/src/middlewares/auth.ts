@@ -13,7 +13,7 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
     let payload: JwtPayload | null = null
     const authHeader = req.header('Authorization')
     if (!authHeader?.startsWith('Bearer ')) {
-        throw new UnauthorizedError('Невалидный токен')
+        throw new UnauthorizedError('Tокен невалидный')
     }
     try {
         const accessTokenParts = authHeader.split(' ')
@@ -22,29 +22,29 @@ const auth = async (req: Request, res: Response, next: NextFunction) => {
 
         const user = await UserModel.findOne(
             {
-                _id: new Types.ObjectId(payload.sub),
+                _id: new Types.ObjectId(payload._id),
             },
             { password: 0, salt: 0 }
         )
 
         if (!user) {
-            return next(new ForbiddenError('Нет доступа'))
+            return next(new ForbiddenError('ForbiddenError'))
         }
         res.locals.user = user
 
         return next()
     } catch (error) {
         if (error instanceof Error && error.name === 'TokenExpiredError') {
-            return next(new UnauthorizedError('Истек срок действия токена'))
+            return next(new UnauthorizedError('UnauthorizedError'))
         }
-        return next(new UnauthorizedError('Необходима авторизация'))
+        return next(new UnauthorizedError('UnauthorizedError'))
     }
 }
 
 export function roleGuardMiddleware(...roles: Role[]) {
     return (_req: Request, res: Response, next: NextFunction) => {
         if (!res.locals.user) {
-            return next(new UnauthorizedError('Необходима авторизация'))
+            return next(new UnauthorizedError('UnauthorizedError'))
         }
 
         const hasAccess = roles.some((role) =>
@@ -68,7 +68,7 @@ export function currentUserAccessMiddleware<T>(
         const id = req.params[idProperty]
 
         if (!res.locals.user) {
-            return next(new UnauthorizedError('Необходима авторизация'))
+            return next(new UnauthorizedError('UnauthorizedError'))
         }
 
         if (res.locals.user.roles.includes(Role.Admin)) {
@@ -78,7 +78,7 @@ export function currentUserAccessMiddleware<T>(
         const entity = await model.findById(id)
 
         if (!entity) {
-            return next(new NotFoundError('Не найдено'))
+            return next(new NotFoundError('NotFoundError'))
         }
 
         const userEntityId = entity[userProperty] as Types.ObjectId
@@ -87,7 +87,7 @@ export function currentUserAccessMiddleware<T>(
         )
 
         if (!hasAccess) {
-            return next(new ForbiddenError('Доступ запрещен'))
+            return next(new ForbiddenError('ForbiddenError'))
         }
 
         return next()

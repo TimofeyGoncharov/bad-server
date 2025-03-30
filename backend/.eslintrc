@@ -3,6 +3,7 @@
     "es2021": true,
     "node": true
   },
+  "import/no-extraneous-dependencies": ["error", {"devDependencies": false, "optionalDependencies": false, "peerDependencies": false}],
   "extends": ["airbnb-base", "prettier"],
   "parser": "@typescript-eslint/parser",
   "parserOptions": {
